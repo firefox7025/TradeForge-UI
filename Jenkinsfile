@@ -17,7 +17,7 @@ pipeline {
         container('kaniko') {
           sh 'cp /workspace/opt/app/shared/Dockerfile /workspace'
           sh 'ulimit -n 10000'
-          sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/repository/docker-hosted/tradeforgeui:${BRANCH_NAME}-${BUILD_NUMBER}'
+          sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/tradeforgeui:${BRANCH_NAME}-${BUILD_NUMBER}'
         }
       }
     }
