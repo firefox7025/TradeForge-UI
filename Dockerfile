@@ -9,12 +9,13 @@ RUN curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/b
 
 ADD . /build
 WORKDIR /build
-RUN apt get install npm -y && npm install uglify-js --global
-RUN ls -la && \
-    elm make src/Main.elm --optimize --output=elm.js && \
-    cp index.html /usr/share/nginx/html/index.html && \
-    uglifyjs elm.js --compress "pure_funcs=[F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9],pure_getters,keep_fargs=false,unsafe_comps,unsafe" | uglifyjs --mangle --output elm.min.js
-    cp elm.js /usr/share/nginx/html/elm.js 
+RUN ls -la && elm make src/Main.elm --optimize --output=elm.js
+RUN cp index.html /usr/share/nginx/html/index.html
+RUN elm make src/Main.elm --optimize --output=elm.js
+RUN apt-get update && apt-get install npm -y && npm install uglify-js --global
+RUN uglifyjs elm.js --compress "pure_funcs=[F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9],pure_getters,keep_fargs=false,unsafe_comps,unsafe" | uglifyjs --mangle --output elm.min.js
+RUN cp elm.js /usr/share/nginx/html/elm.js
+run cp elm.min.js /usr/share/nginx/html/elm.min.js
 
 EXPOSE 80
 EXPOSE 443
