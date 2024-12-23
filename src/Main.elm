@@ -57,7 +57,8 @@ navBar =
         ]
         [ navLink "Home" "#"
         , navLink "About" "#about"
-        , navLink "Contact" "#contact"
+        , navLink
+              "Contact" "#contact"
         ]
 
 
