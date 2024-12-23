@@ -8,7 +8,7 @@ pipeline {
     stage('Copy Artifacts') {
       steps {
         container('builder') {
-          sh 'cp Dockerfile /workspace/opt/app/shared/Dockerfile'
+          sh 'cp -r * /workspace/opt/app/shared/Dockerfile'
         }
       }
     }
