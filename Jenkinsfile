@@ -15,7 +15,7 @@ pipeline {
     stage('Release') {
       steps {
         container('kaniko') {
-          sh 'cp /workspace/opt/app/shared/Dockerfile /workspace'
+          sh 'cp -r /workspace/opt/app/shared/* /workspace'
           sh 'ulimit -n 10000'
           sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/tradeforgeui:${BRANCH_NAME}-${BUILD_NUMBER}'
         }
