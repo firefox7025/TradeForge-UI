@@ -7,6 +7,8 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Events as Events 
 import Element.Font as Font
+import Components.NavBar as NavBar
+import Components.Util exposing (Msg(..))
 
 -- MAIN
 
@@ -26,10 +28,6 @@ init =
     {}
 
 
-type Msg
-    = NoOp
-
-
 update : Msg -> Model -> Model
 update msg model =
     case msg of
@@ -43,36 +41,9 @@ view : Model -> Html Msg
 view model =
     Element.layout []
         (column []
-        [navBar, mainContent
+        [NavBar.navBar, mainContent
         ]
     )
-
-
-navBar : Element Msg
-navBar =
-    row
-        [ spacing 20
-        , padding 10
-        , Background.color (rgb255 51 51 51)
-        ]
-        [ navLink "Home" "#"
-        , navLink "About" "#about"
-        , navLink
-              "Contact" "#contact"
-        ]
-
-
-navLink : String -> String -> Element Msg
-navLink label url =
-    text label
-        |> el
-            [ Font.color (rgb255 255 255 255) 
-            , Border.rounded 5
-            , paddingXY 10 5
-            , mouseOver [ Background.color (rgb255 87 87 87) ]
-            , Events.onClick NoOp 
-            ]
-
 
 mainContent : Element Msg
 mainContent =
