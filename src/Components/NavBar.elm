@@ -1,15 +1,31 @@
 module Components.NavBar exposing (navBar)
+import Element exposing (..)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Events as Events 
+import Element.Font as Font
+import Components.Util exposing (Msg(..))
 
-import Element exposing (Element, column, row, text, onClick, backgroundColor, padding, borderRadius)
-
-type Msg = NavigateToHome | NavigateToAbout
-
-navBar : (Msg -> msg) -> (Msg -> msg) -> Element msg
-navBar onHomeClick onAboutClick =
-    column
-        [ width 1000, backgroundColor (Element.rgb 33 33 33), padding 20 ]
-        [ row [ spacing 10 ]
-            [ button [ onClick (onHomeClick NavigateToHome), padding 10, backgroundColor (Element.rgb 0 188 212), borderRadius 4 ] [ text "Home" ]
-            , button [ onClick (onAboutClick NavigateToAbout), padding 10, backgroundColor (Element.rgb 0 188 212), borderRadius 4 ] [ text "About" ]
-            ]
+navBar : Element Msg
+navBar =
+    row
+        [ spacing 20
+        , padding 10
+        , Background.color (rgb255 51 51 51)
         ]
+        [ navLink "Home" "#"
+        , navLink "About" "#about"
+        , navLink
+              "Contact" "#contact"
+        ]
+
+
+navLink : String -> String -> Element Msg
+navLink label url =
+    text label
+        |> el
+            [ Font.color (rgb255 255 255 255) 
+            , Border.rounded 5
+            , paddingXY 10 5
+            , mouseOver [ Background.color (rgb255 87 87 87) ]
+            ]
