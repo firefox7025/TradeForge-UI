@@ -71,7 +71,6 @@ view model =
                 [ loginPage ]
             )
 
-
 mainContent : Element Msg
 mainContent =
     column
