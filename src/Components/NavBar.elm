@@ -14,9 +14,11 @@ navBar =
         , Background.color (rgb255 51 51 51)
         ]
         [ navLink "Home" "#"
-        , navLink "About" "#about"
-        , navLink
-              "Contact" "#contact"
+        , navLink "Account" "#account"
+        , navLink "TradeForge Connect" "#connect"
+        , navLink "Plans and Features" "#plans"
+        , navLink "Funds and Wallets" "#funds"
+        , navLink "Support" "#support"
         ]
 
 
