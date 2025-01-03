@@ -1,5 +1,16 @@
+module Login exposing (loginPage)
+
 import Json.Decode as Decode exposing (..)
 import Json.Encode as Encode exposing (..)
+import Html exposing (Html)
+import Http
+import Element exposing (..)
+import Element exposing (..)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Events as Events
+import Element.Font as Font
+import Element.Input as Input
 
 type alias Model =
     {  username: String
@@ -10,51 +21,47 @@ type alias Model =
 
 init : (Model, Cmd Msg)
 init =
-    ( Model "" "" "" "", userLogin )
+    ( Model "" "" "" "", Cmd.none )
+
+api : String
+api =
+    "https://api.tradeforge.ultimaengineering.io"
 
 
 registerUrl : String
 registerUrl = api ++ "/users/login"
 
-userEncoder : Model -> Encode.Value
-userEncoder model =
+authRequestBody : Model -> Encode.Value
+authRequestBody model =
     Encode.object
-        [
-         ("username_or_email", Encode.string.model.username)
-        ,("password", Encode.string model.password)
+        [ ("username_or_email", Encode.string model.username)
+        , ("password", Encode.string model.password)
         ]
 
-authUser : Model -> String -> Http.Request String
-authUser model apiUrl =
-    let
-        body =
-            model
-                |> userEncoder
-                |> jsonBody
-    in
-        Http.post apiUrl body tokenDecoder
-
 authUserCmd : Model -> String -> Cmd Msg
-authUserCmd model apiUrl
-    Http.send GetTokenCompleted (authUser model apiUrl)
+authUserCmd model apiUrl =
+    Http.post
+                { url = apiUrl
+                , body = Http.jsonBody (authRequestBody model)
+                , expect = Http.expectJson GetTokenCompleted authResponseDecoder
+                }
 
 getTokenCompleted : Model -> Result Http.Error String -> ( Model, Cmd Msg )
 getTokenCompleted model result =
     case result of
         Ok newToken ->
-            ( { model | token = newtoken, password = "", errorMsg = ""} |> Debug.log "Token aquired", Cmd.none )
+            ( { model | token = newToken, password = "", errorMsg = "" } |> Debug.log "Token acquired", Cmd.none )
         Err error ->
-            ( { model | errorMsg = (toString error) }, Cmd.none )
+            ( { model | errorMsg = Debug.toString error }, Cmd.none )
 
-tokenDecoder : Decoder String
-tokenDecoder =
+authResponseDecoder : Decoder String
+authResponseDecoder =
     Decode.field "sub" Decode.string
 
 
 
 type Msg
-    ...
-    | SetUsername String
+    = SetUsername String
     | SetPassword String
     | ClickRegisterUser
     | GetTokenCompleted (Result Http.Error String)
@@ -62,8 +69,6 @@ type Msg
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        ...
-
             SetUsername username ->
                 ( { model | username = username }, Cmd.none )
 
@@ -87,21 +92,24 @@ loginPage =
             (column []
                 [ el [] (text "Username:")
                 , el []
-                    (Input.text
-                        [ Border.width 1, Border.color (rgb255 200 200 200), padding 10 ]
-                        { value = "", onInput = SetUsername, placeholder = Just "Enter your username" }
+                    (Input.username
+                         [ Border.width 1, Border.color (rgb255 200 200 200), padding 10 ]
+                         { label = Input.labelHidden "Username"
+                         , onChange = SetUsername
+                         , placeholder =  Nothing
+                         , text = ""
+                         }
                     )
                 , el [] (text "Password:")
                 , el []
-                    (Input.password
+                    (Input.currentPassword
                         [ Border.width 1, Border.color (rgb255 200 200 200), padding 10 ]
-                        { value = "", onInput = SetPassword, placeholder = Just "Enter your password" }
-                    )
-                , el [ centerX, padding 20 ]
-                    (Button.button
-                        [ Background.color (rgb255 0 123 255), Font.color white, padding 15, Border.rounded 5 ]
-                        { onPress = ClickRegisterUser }
-                        (text "Register")
+                        { label = Input.labelHidden "Password"
+    , text = ""
+    , onChange = SetPassword
+    , placeholder = Nothing
+    , show = False
+    }
                     )
                 ]
             )

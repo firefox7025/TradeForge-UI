@@ -10,6 +10,7 @@ import Element.Font as Font
 import Components.NavBar as NavBar
 import Components.Util exposing (Msg(..))
 import Components.Footer as Footer
+import Login as LoginPage
 
 -- MAIN
 
@@ -68,7 +69,7 @@ view model =
     else
         Element.layout []
             (column []
-                [ loginPage ]
+                [ LoginPage.loginPage ]
             )
 
 mainContent : Element Msg
