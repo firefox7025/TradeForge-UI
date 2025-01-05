@@ -1,4 +1,4 @@
-module Components.NavBar exposing (navBar)
+module Components.Footer exposing (footer)
 
 import Components.Util exposing (Msg(..))
 import Element exposing (..)
@@ -8,27 +8,20 @@ import Element.Events as Events
 import Element.Font as Font
 
 
-navBar : Element Msg
-navBar =
-    row
-        [ spacing 20
-        , padding 10
-        , Background.color (rgb255 51 51 51)
-        ]
-        [ navLink "Account" "#account"
-        , navLink "TradeForge Connect" "#connect"
-        , navLink "Plans and Features" "#plans"
-        , navLink "Funds and Wallets" "#funds"
-        , navLink "Support" "#support"
-        ]
-
-
 navLink : String -> String -> Element Msg
 navLink label url =
     text label
         |> el
             [ Font.color (rgb255 255 255 255)
             , Border.rounded 5
+            , Background.color (rgb255 51 51 51)
             , paddingXY 10 5
             , mouseOver [ Background.color (rgb255 87 87 87) ]
             ]
+
+
+footer : Element Msg
+footer =
+    row []
+        [ navLink "Profile" ""
+        ]

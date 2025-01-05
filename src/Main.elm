@@ -1,31 +1,46 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html)
+import Components.Footer as Footer
+import Components.NavBar as NavBar
+import Components.Util exposing (Msg(..))
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
-import Element.Events as Events 
+import Element.Events as Events
 import Element.Font as Font
-import Components.NavBar as NavBar
-import Components.Util exposing (Msg(..))
+import Html exposing (Html)
+import Login as LoginPage
+
+
 
 -- MAIN
+
 
 main : Program () Model Msg
 main =
     Browser.sandbox { init = init, update = update, view = view }
 
 
+
 -- MODEL
 
+
 type alias Model =
-    {}
+    { token : String
+    , errorMsg : String
+    , username : String
+    , password : String
+    }
 
 
 init : Model
 init =
-    {}
+    { token = ""
+    , errorMsg = ""
+    , username = ""
+    , password = ""
+    }
 
 
 update : Msg -> Model -> Model
@@ -34,25 +49,65 @@ update msg model =
         NoOp ->
             model
 
+        SetUsername username ->
+            { model | username = username }
+
+        SetPassword password ->
+            { model | password = password }
+
+        ClickRegisterUser ->
+            model
+
+        GetTokenCompleted result ->
+            model
+
+
 
 -- VIEW
 
+
 view : Model -> Html Msg
 view model =
-    Element.layout []
-        (column []
-        [NavBar.navBar, mainContent
-        ]
-    )
+    let
+        loggedIn =
+            String.length model.token > 0
+
+        showError =
+            if String.isEmpty model.errorMsg then
+                "hidden"
+
+            else
+                ""
+    in
+    if loggedIn then
+        Element.layout []
+            (column []
+                [ NavBar.navBar
+                , mainContent
+                , Footer.footer
+                ]
+            )
+
+    else
+        Element.layout []
+            (column []
+                [ LoginPage.loginPage ]
+            )
+
 
 mainContent : Element Msg
 mainContent =
     column
-        [ padding 20
-        , spacing 10
+        [ width fill
+        , padding 60
+        , height fill
         ]
-        [ text "Welcome to Your Elm-UI Page2!"
-            |> el [  ]
-        , text "This is your main content area."
-            |> el [ ]
+        [ text "Total Account Balance and Returns"
+            |> el []
+        , text "Chart with investments total Returns"
+            |> el []
+        , text "Ticker showing Buying power, Cash, Daily Change, and Number of Trades Made Today"
+            |> el []
+        , text "Top Returning Positions"
+            |> el []
         ]
