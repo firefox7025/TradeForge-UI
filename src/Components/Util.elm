@@ -2,6 +2,7 @@ module Components.Util exposing (Msg(..))
 
 import Http
 
+
 type Msg
     = SetUsername String
     | SetPassword String

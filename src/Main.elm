@@ -1,25 +1,30 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html)
+import Components.Footer as Footer
+import Components.NavBar as NavBar
+import Components.Util exposing (Msg(..))
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Events as Events
 import Element.Font as Font
-import Components.NavBar as NavBar
-import Components.Util exposing (Msg(..))
-import Components.Footer as Footer
+import Html exposing (Html)
 import Login as LoginPage
 
+
+
 -- MAIN
+
 
 main : Program () Model Msg
 main =
     Browser.sandbox { init = init, update = update, view = view }
 
 
+
 -- MODEL
+
 
 type alias Model =
     { token : String
@@ -27,6 +32,7 @@ type alias Model =
     , username : String
     , password : String
     }
+
 
 init : Model
 init =
@@ -42,29 +48,34 @@ update msg model =
     case msg of
         NoOp ->
             model
+
         SetUsername username ->
-                ( { model | username = username } )
+            { model | username = username }
 
         SetPassword password ->
-                ( { model | password = password } )
+            { model | password = password }
 
         ClickRegisterUser ->
-                (model )
+            model
 
         GetTokenCompleted result ->
-                (model )
+            model
+
 
 
 -- VIEW
+
 
 view : Model -> Html Msg
 view model =
     let
         loggedIn =
             String.length model.token > 0
+
         showError =
             if String.isEmpty model.errorMsg then
                 "hidden"
+
             else
                 ""
     in
@@ -76,26 +87,27 @@ view model =
                 , Footer.footer
                 ]
             )
+
     else
         Element.layout []
             (column []
                 [ LoginPage.loginPage ]
             )
 
+
 mainContent : Element Msg
 mainContent =
     column
-        [
-          width fill,
-          padding 60,
-          height fill
+        [ width fill
+        , padding 60
+        , height fill
         ]
         [ text "Total Account Balance and Returns"
-            |> el [  ]
+            |> el []
         , text "Chart with investments total Returns"
-            |> el [ ]
+            |> el []
         , text "Ticker showing Buying power, Cash, Daily Change, and Number of Trades Made Today"
-            |> el [ ]
+            |> el []
         , text "Top Returning Positions"
-            |> el [ ]
+            |> el []
         ]

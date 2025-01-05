@@ -1,10 +1,12 @@
 module Components.Footer exposing (footer)
+
+import Components.Util exposing (Msg(..))
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
-import Element.Events as Events 
+import Element.Events as Events
 import Element.Font as Font
-import Components.Util exposing (Msg(..))
+
 
 navLink : String -> String -> Element Msg
 navLink label url =
@@ -21,6 +23,5 @@ navLink label url =
 footer : Element Msg
 footer =
     row []
-        [
-         navLink "Profile" ""
+        [ navLink "Profile" ""
         ]
