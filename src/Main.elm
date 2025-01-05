@@ -42,6 +42,17 @@ update msg model =
     case msg of
         NoOp ->
             model
+        SetUsername username ->
+                ( { model | username = username } )
+
+        SetPassword password ->
+                ( { model | password = password } )
+
+        ClickRegisterUser ->
+                (model )
+
+        GetTokenCompleted result ->
+                (model )
 
 
 -- VIEW
@@ -51,7 +62,6 @@ view model =
     let
         loggedIn =
             String.length model.token > 0
-
         showError =
             if String.isEmpty model.errorMsg then
                 "hidden"

@@ -11,6 +11,7 @@ import Element.Border as Border
 import Element.Events as Events
 import Element.Font as Font
 import Element.Input as Input
+import Components.Util exposing (Msg(..))
 
 type alias Model =
     {  username: String
@@ -58,19 +59,11 @@ authResponseDecoder : Decoder String
 authResponseDecoder =
     Decode.field "sub" Decode.string
 
-
-
-type Msg
-    = SetUsername String
-    | SetPassword String
-    | ClickRegisterUser
-    | GetTokenCompleted (Result Http.Error String)
-
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
             SetUsername username ->
-                ( { model | username = username }, Cmd.none )
+                ( { model | username = username }  |> Debug.log "Username Updated", Cmd.none )
 
             SetPassword password ->
                 ( { model | password = password }, Cmd.none )
@@ -80,6 +73,7 @@ update msg model =
 
             GetTokenCompleted result ->
                 getTokenCompleted model result
+            NoOp -> (model, Cmd.none )
 
 loginPage : Element Msg
 loginPage =
