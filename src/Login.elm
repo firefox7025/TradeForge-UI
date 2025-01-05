@@ -52,6 +52,23 @@ authUserCmd model apiUrl =
         , expect = Http.expectJson GetTokenCompleted authResponseDecoder
         }
 
+errorToString : Http.Error -> String
+errorToString error =
+    case error of
+        Http.BadUrl url ->
+            "The URL " ++ url ++ " was invalid"
+        Http.Timeout ->
+            "Unable to reach the server, try again"
+        Http.NetworkError ->
+            "Unable to reach the server, check your network connection"
+        Http.BadStatus 500 ->
+            "The server had a problem, try again later"
+        Http.BadStatus 400 ->
+            "Verify your information and try again"
+        Http.BadStatus _ ->
+            "Unknown error"
+        Http.BadBody errorMessage ->
+            errorMessage
 
 getTokenCompleted : Model -> Result Http.Error String -> ( Model, Cmd Msg )
 getTokenCompleted model result =
@@ -60,7 +77,7 @@ getTokenCompleted model result =
             ( { model | token = newToken, password = "", errorMsg = "" }, Cmd.none )
 
         Err error ->
-            ( { model | errorMsg = Debug.toString error }, Cmd.none )
+            ( { model | errorMsg = errorToString error }, Cmd.none )
 
 
 authResponseDecoder : Decoder String
