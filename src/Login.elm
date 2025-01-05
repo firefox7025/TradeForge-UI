@@ -57,7 +57,7 @@ getTokenCompleted : Model -> Result Http.Error String -> ( Model, Cmd Msg )
 getTokenCompleted model result =
     case result of
         Ok newToken ->
-            ( { model | token = newToken, password = "", errorMsg = "" } |> Debug.log "Token acquired", Cmd.none )
+            ( { model | token = newToken, password = "", errorMsg = "" }, Cmd.none )
 
         Err error ->
             ( { model | errorMsg = Debug.toString error }, Cmd.none )
@@ -72,7 +72,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SetUsername username ->
-            ( { model | username = username } |> Debug.log "Username Updated", Cmd.none )
+            ( { model | username = username }, Cmd.none )
 
         SetPassword password ->
             ( { model | password = password }, Cmd.none )
