@@ -18,9 +18,10 @@ pipeline {
           sh 'cp -r /workspace/opt/app/shared/* /workspace'
           sh 'ulimit -n 10000'
           sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/tradeforgeui:${BRANCH_NAME}-${BUILD_NUMBER}'
-          step {
+          
+          script {
             if (env.BRANCH_NAME == 'master') {
-                sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/tradeforgeui:latest'
+              sh '/kaniko/executor -f Dockerfile --destination=docker.ultimaengineering.io/tradeforgeui:latest'
             }
           }
         }
