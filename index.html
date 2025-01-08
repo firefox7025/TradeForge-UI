@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://unpkg.com/highlight.run"></script>
+        <script>
+         H.init('jdk5wm3d', { 
+             environment: 'production',
+             version: 'commit:dev',
+                              networkRecording: {
+                                  enabled: true,
+                                  recordHeadersAndBody: true,
+                                  urlBlocklist: [
+                                  ],
+                              },
+         });
+        </script>
     </head>
     <body>
         <div id="elm-app-is-loaded-here"></div>
