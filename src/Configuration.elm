@@ -1,3 +1,3 @@
-module Configuration exposing (backend2)
+module Configuration exposing (backend)
 
-backend2 = "https://arcane-cliffs-95237.herokuapp.com/"
+backend = "https://api.tradeforge.ultimaengineering.io/"

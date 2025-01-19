@@ -33,11 +33,6 @@ init =
     , Cmd.none
     )
 
-
-{-| NOTE that the Home udpdate function is of the usual
-kind -- there is no SharedState parameter. Contrast
-this with the update function for SettiÂngs.
--}
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -52,11 +47,6 @@ view : SharedState -> Model -> Element Msg
 view sharedState model =
     column Style.mainColumn
         [ el [ Font.size 24, Font.bold ] (text "Home page")
-        , el [ Font.size 16 ] (text <| "Counter = " ++ String.fromInt model.counter)
-        , Input.button Style.button
-            { onPress = Just (IncrementCounter)
-            , label = el [] (text "Increment counter")
-            }
         , footer sharedState model
         ]
 
@@ -65,7 +55,7 @@ footer : SharedState -> Model -> Element Msg
 footer sharedState model =
     row Style.footer
         [ el Style.footerItem (text <| userStatus sharedState.currentUser)
-        , el Style.footerItem (text <| "UTC: " ++ Utility.toUtcString (Just sharedState.currentTime))
+         , el Style.footerItem (text <| "UTC: " ++ Utility.toUtcString (Just sharedState.currentTime))
         ]
 
 

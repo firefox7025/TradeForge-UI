@@ -109,17 +109,16 @@ updateRouter model routerMsg =
                 ( nextRouterModel, routerCmd, sharedStateUpdate ) =
                     Router.update sharedState routerMsg routerModel
             in
-                ( { model | appState = Ready nextSharedState nextRouterModel }
-                , Cmd.map RouterMsg routerCmd
-                )
+            ( { model | appState = Ready nextSharedState nextRouterModel }
+            , Cmd.map RouterMsg routerCmd
+            )
 
         _ ->
             let
                 _ =
-                    Debug.log "We got a router message even though the app is not ready?"
-                        routerMsg
+                    routerMsg
             in
-                ( model, Cmd.none )
+            ( model, Cmd.none )
 
 
 view : Model -> Browser.Document Msg

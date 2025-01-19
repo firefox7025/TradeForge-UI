@@ -125,7 +125,7 @@ view msgMapper sharedState model =
         body_ =
             column [ padding 40 ]
                 [ el [ paddingXY 0 20, Font.bold ]
-                    (text "Login Demo using Shared State")
+                    (text "TradeForge")
                 , row
                     (Style.navBar (px 480))
                     [ Input.button (Style.activeButton (model.route == HomeRoute))
@@ -140,7 +140,7 @@ view msgMapper sharedState model =
                 , pageView sharedState model
                 ]
     in
-        { title = "Elm Shared State Demo"
+        { title = "TradeForge"
         , body = body_ |> Element.layoutWith { options = [ Style.myFocusStyle ] } [] |> Html.map msgMapper |> \x -> [ x ]
         }
 
