@@ -12,7 +12,7 @@ import User.Types exposing (User, Msg(..))
 authenticate : String -> String -> Cmd Msg
 authenticate email password =
     Http.post
-        { url = Configuration.backend ++ "/api/users/authenticate"
+        { url = Configuration.backend ++ "/users/login"
         , body = Http.jsonBody (authorizationEncoder email password)
         , expect = Http.expectJson ProcessAuthentication userDecoder
         }
@@ -21,7 +21,7 @@ authenticate email password =
 registerUser : String -> String -> String -> Cmd Msg
 registerUser username email password =
     Http.post
-        { url = Configuration.backend ++ "/api/users/"
+        { url = Configuration.backend ++ "/users/create"
         , body = Http.jsonBody (registrationEncoder username email password)
         , expect = Http.expectJson AcceptRegistration userDecoder
         }
@@ -64,13 +64,6 @@ userDecoder =
         |> required "firstname" Decode.string
         |> required "email" Decode.string
         |> required "token" Decode.string
-        |> required "blurb" Decode.string
-        |> required "public" Decode.bool
-        |> required "follow" (Decode.list Decode.string)
-        |> required "followers" (Decode.list Decode.string)
-        |> required "admin" Decode.bool
-        |> required "inserted_at" (Decode.map usDateStringFromElixirDateString Decode.string)
-
 
 
 --

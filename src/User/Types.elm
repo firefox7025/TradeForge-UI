@@ -10,12 +10,6 @@ type alias User =
     , firstname : String
     , email : String
     , token : String
-    , blurb : String
-    , public : Bool
-    , follow : List String
-    , followers : List String
-    , admin : Bool
-    , beginningDate : String
     }
 
 
